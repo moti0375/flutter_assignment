@@ -12,21 +12,25 @@ class FirestoreDatabase implements Database {
 
   @override
   Future<String?> fetchApiKey() async {
-    DocumentSnapshot documentSnapshot = await _firebaseFirestore
-        .collection('credentials')
-        .doc('QhRaLo39TNrDX41zEfem')
-        .get();
+    try{
+      DocumentSnapshot documentSnapshot = await _firebaseFirestore
+          .collection('credentials')
+          .doc('QhRaLo39TNrDX41zEfem')
+          .get();
 
 
-    print("[FirestoreDatabase] - fetchApiKey: $documentSnapshot" );
+      print("[FirestoreDatabase] - fetchApiKey: $documentSnapshot" );
 
-    if (documentSnapshot.exists) {
-      var data = documentSnapshot.data() as Map<String, dynamic>;
-      print('[FirestoreDatabase] - Document data: ${data}');
-      String? apiKey = data['api_key'];
-      return apiKey;
-    } else {
-      print('[FirestoreDatabase] - Document does not exist.');
+      if (documentSnapshot.exists) {
+        var data = documentSnapshot.data() as Map<String, dynamic>;
+        print('[FirestoreDatabase] - Document data: ${data}');
+        String? apiKey = data['api_key'];
+        return apiKey;
+      } else {
+        print('[FirestoreDatabase] - Document does not exist.');
+      }
+    } on Exception catch (e){
+      print("[FireStoreDatabase] - Something wentWrong: ${e}");
     }
     return null;
   }

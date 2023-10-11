@@ -23,14 +23,17 @@ class DetailsScreen extends StatelessWidget {
   }
 
   Widget _buildPageContent(BuildContext context) {
-    return Column(
-      children: [
-        _buildTitleSection(),
-        _buildImageSection(context),
-        Expanded(child: _buildDescriptionSection(context)),
-        if (categories.isNotEmpty) _buildCategoriesSection(),
-        _buildAuthorLinkSection(),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          _buildTitleSection(),
+          _buildImageSection(context),
+          Expanded(child: _buildDescriptionSection(context)),
+          if (categories.isNotEmpty) _buildCategoriesSection(),
+          _buildAuthorLinkSection(),
+        ],
+      ),
     );
   }
 
@@ -55,6 +58,7 @@ class DetailsScreen extends StatelessWidget {
     return SizedBox(
       height: 100,
       child: ListView.builder(
+        itemCount: categories.length,
         itemBuilder: (context, index) => Padding(
           padding: const EdgeInsets.all(4.0),
           child: Chip(label: Text(categories[index])),

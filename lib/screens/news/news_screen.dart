@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_assignment/core/auth/auth.dart';
 import 'package:flutter_assignment/core/auth/auth_bloc.dart';
 import 'package:flutter_assignment/data/model/news_post.dart';
 import 'package:flutter_assignment/di/di_config.dart';
@@ -50,7 +49,7 @@ class NewsScreen extends StatelessWidget {
                     color: Theme.of(context).iconTheme.color,
                   ),
                   Expanded(
-                    child: Text("English", style: Theme.of(context).textTheme.bodyText2, textAlign: TextAlign.center),
+                    child: Text("English", style: Theme.of(context).textTheme.bodySmall, textAlign: TextAlign.center),
                   ),
                 ],
               )),
@@ -63,7 +62,7 @@ class NewsScreen extends StatelessWidget {
                   color: Theme.of(context).iconTheme.color,
                 ),
                 Expanded(
-                  child: Text("Hebrew", style: Theme.of(context).textTheme.bodyText2, textAlign: TextAlign.center),
+                  child: Text("Hebrew", style: Theme.of(context).textTheme.bodySmall, textAlign: TextAlign.center),
                 ),
               ],
             ),
@@ -119,6 +118,6 @@ class NewsScreen extends StatelessWidget {
   }
 
   _navigateToDetailsScreen(NewsPost post, List<String> categories, BuildContext context) {
-    Navigator.of(context).pushReplacementNamed(DETAILS, arguments: {"post": post, "categories": categories});
+    Navigator.of(context).pushNamed(DETAILS, arguments: {"post": post, "categories": categories});
   }
 }

@@ -29,9 +29,6 @@ class MyApp extends StatelessWidget {
         initialRoute: ROOT,
         routes: {
           ROOT: (context) => const RootScreen(),
-          SPLASH: (context) => const SplashScreen(),
-          SIGN_IN: (context) =>  SignInPage.create(),
-          NEWS: (context) =>  const NewsScreen(),
           DETAILS: (context) =>  DetailsScreen(),
         },
       ),

@@ -25,13 +25,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
 
   Future<void> _checkAuth({required Emitter emitter}) async {
-    print("[AuthBloc] - _checkAuth");
     AppUser? signeUser = await _auth.getSignedInUser();
-    print("[AuthBloc] - _checkAuth: signeUser $signeUser");
-
-    print("[AuthBloc] - _checkAuth: $signeUser");
     if(signeUser != null){
-      print("[AuthBloc] - _checkAuth: authenticated");
       emitter(const AuthState.authenticated());
     } else {
       emitter(const AuthState.unauthenticated());
