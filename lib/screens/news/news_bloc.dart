@@ -28,7 +28,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   Future<void> _fetchNews(Emitter<NewsState> emitter, String? lang) async {
     emitter(const NewsState.loading());
     List<NewsPost> posts = await _repository.fetchNews(lang);
-    List<String> categories = posts.map((e) => e.category).expand((element) => element).toList();
+    List<String> categories = posts.map((e) => e.category).expand((element) => element).toSet().toList()..sort();
     emitter(NewsState.ready(posts, categories));
   }
 

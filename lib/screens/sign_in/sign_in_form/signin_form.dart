@@ -11,10 +11,9 @@ class SignInForm extends StatelessWidget {
     return BlocListener<SignInFormBloc, SignInFormState>(
       listener: (context, state) {
         print("[BlocListener] - $state");
-        state.authStatus.whenOrNull(success: (success) {
-          print("[BlocListener] - authStatus success");
+        if(state.authSuccess){
           context.read<AuthBloc>().add(const AuthEvent.authCheckRequested());
-        });
+        }
       },
       child: BlocBuilder<SignInFormBloc, SignInFormState>(
         builder: (context, state) {

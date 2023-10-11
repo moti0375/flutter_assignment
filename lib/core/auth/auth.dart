@@ -1,16 +1,13 @@
 import 'package:flutter/services.dart';
-import 'package:flutter_assignment/core/failures/auth_failure.dart';
-import 'package:dartz/dartz.dart';
-import 'package:flutter_assignment/core/failures/firebase_auth_mapper.dart';
-import 'package:flutter_assignment/domain/result/result.dart';
-import 'package:flutter_assignment/domain/user/user.dart';
+import 'package:flutter_assignment/domain/user/firebase_auth_mapper.dart';
+import 'package:flutter_assignment/domain/user/app_user.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 
 abstract interface class Auth {
-  Future<Result<Unit, AuthFailure>> signInWithGoogle();
-  Future<Result<AppUser, Unit>> getSignedInUser();
+  Future<bool> signInWithGoogle();
+  Future<AppUser?> getSignedInUser();
   Future<void> signOut();
 }
 
@@ -22,11 +19,11 @@ class AuthImpl  implements Auth {
   AuthImpl(this._googleSignIn, this._firebaseAuth);
 
   @override
-  Future<Result<Unit, AuthFailure>> signInWithGoogle() async {
+  Future<bool> signInWithGoogle() async {
     try {
       final googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
-        return const Result.failure(AuthFailure.cancelledByUser());
+        return false;
       }
 
       final authentication = await googleUser.authentication;
@@ -35,16 +32,16 @@ class AuthImpl  implements Auth {
         accessToken: authentication.accessToken,
       );
 
-      return _firebaseAuth.signInWithCredential(authCredentials).then((value) => const Result.success(unit));
+      return _firebaseAuth.signInWithCredential(authCredentials).then((value) => true);
     } on PlatformException catch (_) {
-      return const Result.failure(AuthFailure.serverError());
+      return false;
     }
   }
 
   @override
-  Future<Result<AppUser, Unit>> getSignedInUser() async {
+  Future<AppUser?> getSignedInUser() async {
     final User? firebaseUser = _firebaseAuth.currentUser;
-    return Result.success(firebaseUser?.toAppUser());
+    return firebaseUser?.toAppUser();
   }
 
   @override

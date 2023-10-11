@@ -1,8 +1,6 @@
-import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_assignment/core/auth/auth.dart';
-import 'package:flutter_assignment/domain/result/result.dart';
-import 'package:flutter_assignment/domain/user/user.dart';
+import 'package:flutter_assignment/domain/user/app_user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
@@ -28,12 +26,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _checkAuth({required Emitter emitter}) async {
     print("[AuthBloc] - _checkAuth");
-    Result<AppUser, Unit> signeUser = await _auth.getSignedInUser();
+    AppUser? signeUser = await _auth.getSignedInUser();
     print("[AuthBloc] - _checkAuth: signeUser $signeUser");
 
-    AppUser? user = signeUser.whenOrNull(success: id);
-    print("[AuthBloc] - _checkAuth: $user");
-    if(user != null){
+    print("[AuthBloc] - _checkAuth: $signeUser");
+    if(signeUser != null){
       print("[AuthBloc] - _checkAuth: authenticated");
       emitter(const AuthState.authenticated());
     } else {
