@@ -23,29 +23,25 @@ class SignInForm extends StatelessWidget {
             padding: const EdgeInsets.all(25.0),
             child: Form(
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Text(
-                    '📝',
-                    style: TextStyle(fontSize: 130),
-                    textAlign: TextAlign.center,
-                  ),
-                  ElevatedButton(
-                    // ignore: use_named_constants
-                    onPressed: () =>
-                        context.read<SignInFormBloc>().add(const SignInFormEvent.signInWithGooglePressed()),
-                    child: context.read<SignInFormBloc>().state.isSubmitting
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text(
-                      "SIGN IN WITH GOOGLE",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+              child: Center(
+               child:
+                  SizedBox(
+                    height: 56,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: ElevatedButton(
+                      // ignore: use_named_constants
+                      onPressed: () =>
+                          context.read<SignInFormBloc>().add(const SignInFormEvent.signInWithGooglePressed()),
+                      child: context.read<SignInFormBloc>().state.isSubmitting
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text(
+                        "SIGN IN WITH GOOGLE",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                ],
               ),
             ),
           );
