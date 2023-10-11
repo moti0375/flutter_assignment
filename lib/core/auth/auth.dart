@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_assignment/core/failures/auth_failure.dart';
 import 'package:dartz/dartz.dart';
@@ -13,15 +12,13 @@ abstract interface class Auth {
   Future<Result<Unit, AuthFailure>> signInWithGoogle();
   Future<Result<AppUser, Unit>> getSignedInUser();
   Future<void> signOut();
-  AppUser? get currentUser;
 }
 
 @LazySingleton(as: Auth)
-class AuthImpl with ChangeNotifier implements Auth {
+class AuthImpl  implements Auth {
   final GoogleSignIn _googleSignIn;
   final FirebaseAuth _firebaseAuth;
 
-  AppUser? _appUser;
   AuthImpl(this._googleSignIn, this._firebaseAuth);
 
   @override
@@ -53,11 +50,4 @@ class AuthImpl with ChangeNotifier implements Auth {
   @override
   Future<void> signOut() => Future.wait([_firebaseAuth.signOut(), _googleSignIn.signOut()]);
 
-  @override
-  AppUser? get currentUser => _appUser;
-
-  _updateCurrentUser(AppUser user){
-    _appUser = user;
-    notifyListeners();
-  }
 }
