@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "163814713335",
+    "project_id": "inabit-flutter-assignment",
+    "storage_bucket": "inabit-flutter-assignment.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:163814713335:android:7cf70cec821bb0dca7b0f2",
+        "android_client_info": {
+          "package_name": "com.inabit.flutter_assignment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "163814713335-dnmt36td13s6q7tis4bthq4vjhddis5u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inabit.flutter_assignment",
+            "certificate_hash": "f918e2de3ddcbe2ac06f9c8d4d261d47cda3fe6f"
+          }
+        },
+        {
+          "client_id": "163814713335-sggmgn3u7vb6r54n1ghn74pkeqqtfssc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGjZeVAvb49aH2A0PyHEUY1tQE7hEyv3Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "163814713335-sggmgn3u7vb6r54n1ghn74pkeqqtfssc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
