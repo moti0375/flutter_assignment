@@ -37,7 +37,11 @@ class HttpClient {
         }
 
         if (response.statusCode == 401) {
-          print("[HttpClient] - Not authorized:");
+          print("[HttpClient] - Not Accessible:");
+        }
+
+        if (response.statusCode == 500) {
+          print("[HttpClient] - Endpoint not found:");
         }
         return null;
       } on PlatformException catch (e) {
