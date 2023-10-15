@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_assignment/data/model/news_post.dart';
+import 'package:flutter_assignment/data/model/news/news_post.dart';
 
 class NewsFeedItem extends StatelessWidget {
   final NewsPost post;

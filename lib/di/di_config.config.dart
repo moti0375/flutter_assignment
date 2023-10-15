@@ -14,10 +14,10 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:google_sign_in/google_sign_in.dart' as _i5;
 import 'package:injectable/injectable.dart' as _i2;
 
-import '../core/auth/auth.dart' as _i7;
-import '../core/auth/auth_bloc.dart' as _i8;
-import '../core/network/http_client.dart' as _i6;
-import '../data/database/database.dart' as _i9;
+import '../core/auth/auth.dart' as _i6;
+import '../core/auth/auth_bloc.dart' as _i7;
+import '../core/network/http_client.dart' as _i9;
+import '../data/database/database.dart' as _i8;
 import '../data/datasource/remote_datasource.dart' as _i10;
 import '../screens/news/news_bloc.dart' as _i13;
 import '../screens/news/repository.dart' as _i11;
@@ -39,21 +39,19 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i3.FirebaseAuth>(() => appModule.firebase());
     gh.lazySingleton<_i4.FirebaseFirestore>(() => appModule.firebaseFirestore);
     gh.lazySingleton<_i5.GoogleSignIn>(() => appModule.googleSignIn);
-    gh.factory<_i6.HttpClient>(() => _i6.HttpClient());
-    gh.lazySingleton<_i7.Auth>(() => _i7.AuthImpl(
+    gh.lazySingleton<_i6.Auth>(() => _i6.AuthImpl(
           gh<_i5.GoogleSignIn>(),
           gh<_i3.FirebaseAuth>(),
         ));
-    gh.factory<_i8.AuthBloc>(() => _i8.AuthBloc(gh<_i7.Auth>()));
-    gh.lazySingleton<_i9.Database>(
-        () => _i9.FirestoreDatabase(gh<_i4.FirebaseFirestore>()));
-    gh.lazySingleton<_i10.RemoteDatasource>(() => _i10.RemoteDatasourceImpl(
-          gh<_i9.Database>(),
-          gh<_i6.HttpClient>(),
-        ));
+    gh.factory<_i7.AuthBloc>(() => _i7.AuthBloc(gh<_i6.Auth>()));
+    gh.lazySingleton<_i8.Database>(
+        () => _i8.FirestoreDatabase(gh<_i4.FirebaseFirestore>()));
+    gh.factory<_i9.HttpClient>(() => _i9.HttpClient(gh<_i8.Database>()));
+    gh.lazySingleton<_i10.RemoteDatasource>(
+        () => _i10.RemoteDatasourceImpl(gh<_i9.HttpClient>()));
     gh.lazySingleton<_i11.Repository>(
         () => _i11.Repository(gh<_i10.RemoteDatasource>()));
-    gh.factory<_i12.SignInFormBloc>(() => _i12.SignInFormBloc(gh<_i7.Auth>()));
+    gh.factory<_i12.SignInFormBloc>(() => _i12.SignInFormBloc(gh<_i6.Auth>()));
     gh.factory<_i13.NewsBloc>(() => _i13.NewsBloc(gh<_i11.Repository>()));
     return this;
   }

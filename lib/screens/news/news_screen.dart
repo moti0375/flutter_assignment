@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_assignment/core/auth/auth_bloc.dart';
-import 'package:flutter_assignment/data/model/news_post.dart';
+import 'package:flutter_assignment/data/model/news/news_post.dart';
 import 'package:flutter_assignment/di/di_config.dart';
 import 'package:flutter_assignment/navigation/routes.dart';
+import 'package:flutter_assignment/presentation/model/news_ui_model.dart';
 import 'package:flutter_assignment/screens/news/news_bloc.dart';
 import 'package:flutter_assignment/ui/news_feed_item.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,22 +13,19 @@ class NewsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<NewsBloc>(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("News Feed"),
-          actions: _buildActions(context),
-        ),
-        body: BlocBuilder<NewsBloc, NewsState>(
-          builder: (context, state) => state.when(
-              initialState: () {
-                context.read<NewsBloc>().add(const NewsEvent.fetchNews());
-                return _showProgressIndicator();
-              },
-              loading: () => _showProgressIndicator(),
-              ready: (news, categories) => _showNewsFeed(news, categories, context)),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("News Feed"),
+        actions: _buildActions(context),
+      ),
+      body: BlocBuilder<NewsBloc, NewsState>(
+        builder: (context, state) => state.when(
+            initialState: () {
+              context.read<NewsBloc>().add(const NewsEvent.fetchNews());
+              return _showProgressIndicator();
+            },
+            loading: () => _showProgressIndicator(),
+            ready: (newsUiModel) => _showNewsFeed(newsUiModel, context)),
       ),
     );
   }
@@ -89,8 +87,8 @@ class NewsScreen extends StatelessWidget {
     );
   }
 
-  Widget _showNewsFeed(List<NewsPost> news, List<String> categories, BuildContext context) {
-    if (news.isEmpty) {
+  Widget _showNewsFeed(NewsUiModel uiModel, BuildContext context) {
+    if (uiModel.news.isEmpty) {
       return const Center(
         child: Text("No news available"),
       );
@@ -99,25 +97,31 @@ class NewsScreen extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (categories.isNotEmpty)
+        if (uiModel.news.isNotEmpty && uiModel.categories.isNotEmpty)
           SizedBox(
             height: 100,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: categories.length,
+                itemCount: uiModel.categories.length,
                 itemBuilder: (context, index) => SizedBox(height: 100, child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Chip(label: Text(categories[index],), shadowColor: Colors.black,),
+                  child: Chip(label: Text(uiModel.categories[index],), shadowColor: Colors.black,),
                 ))),
           ),
         Expanded(
             child: ListView.builder(
-                itemCount: news.length, itemBuilder: (context, index) => NewsFeedItem(post: news[index], onClick: () => _navigateToDetailsScreen(news[index], categories, context),))),
+                itemCount: uiModel.news.length, itemBuilder: (context, index) => NewsFeedItem(post: uiModel.news[index], onClick: () => _navigateToDetailsScreen(uiModel.news[index], uiModel.categories, context),))),
       ],
     );
   }
 
   _navigateToDetailsScreen(NewsPost post, List<String> categories, BuildContext context) {
     Navigator.of(context).pushNamed(DETAILS, arguments: {"post": post, "categories": categories});
+  }
+
+
+  static Widget create() {
+    return BlocProvider<NewsBloc>(create: (context) => getIt<NewsBloc>(),
+      child: const NewsScreen(),);
   }
 }

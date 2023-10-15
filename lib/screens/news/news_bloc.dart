@@ -1,4 +1,4 @@
-import 'package:flutter_assignment/data/model/news_post.dart';
+import 'package:flutter_assignment/presentation/model/news_ui_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_assignment/screens/news/repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -27,9 +27,8 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
 
   Future<void> _fetchNews(Emitter<NewsState> emitter, String? lang) async {
     emitter(const NewsState.loading());
-    List<NewsPost> posts = await _repository.fetchNews(lang);
-    List<String> categories = posts.map((e) => e.category).expand((element) => element).toSet().toList()..sort();
-    emitter(NewsState.ready(posts, categories));
+    NewsUiModel newsUiModel = await _repository.fetchNews(lang);
+    emitter(NewsState.ready(newsUiModel));
   }
 
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_assignment/core/auth/auth_bloc.dart';
-import 'package:flutter_assignment/di/di_config.dart';
 import 'package:flutter_assignment/screens/news/news_screen.dart';
 import 'package:flutter_assignment/screens/sign_in/sign_in_page.dart';
 import 'package:flutter_assignment/screens/splash/splash_screen.dart';
@@ -24,13 +23,6 @@ class RootScreen extends StatelessWidget {
     return state.when(
         initial: () => const SplashScreen(),
         unauthenticated: () =>  SignInPage.create(),
-        authenticated: () => const NewsScreen());
+        authenticated: () => NewsScreen.create());
   }
-
-  // static Widget create() {
-  //   return BlocProvider<AuthBloc>(
-  //     create: (context) => getIt<AuthBloc>()..add(const AuthEvent.authCheckRequested()),
-  //     child: const RootScreen(),
-  //   );
-  // }
 }

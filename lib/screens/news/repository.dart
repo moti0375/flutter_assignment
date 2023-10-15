@@ -1,6 +1,6 @@
 import 'package:flutter_assignment/data/datasource/remote_datasource.dart';
-import 'package:flutter_assignment/data/model/api_response.dart';
-import 'package:flutter_assignment/data/model/news_post.dart';
+import 'package:flutter_assignment/data/model/news/news_post.dart';
+import 'package:flutter_assignment/presentation/model/news_ui_model.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton()
@@ -10,9 +10,11 @@ class Repository {
 
   Repository(this._remoteDatasource);
 
-  Future<List<NewsPost>> fetchNews(String? lang) async {
+  Future<NewsUiModel> fetchNews(String? lang) async {
     print("[Repository] - fetchNews..");
-    List<NewsPost> apiResponse = await _remoteDatasource.fetchNews(lang ?? "en");
-    return apiResponse;
+
+    List<NewsPost> news = await _remoteDatasource.fetchNews(lang ?? "en");
+    List<String> categories = await _remoteDatasource.fetchCategories();
+    return NewsUiModel(news: news, categories: categories);
   }
 }
