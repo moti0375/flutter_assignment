@@ -38,7 +38,7 @@ class NewsFeedItem extends StatelessWidget {
       try {
         Uri uri = Uri.parse(url);
         print("_validateUrl: ${uri.host}");
-        if(uri.host == "None"){
+        if(uri.host.isEmpty){
           return false;
         }
         return true;
